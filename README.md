@@ -1,5 +1,97 @@
 # SQL_AZS
 04.09.2018
+
+USE AZS
+GO
+
+create table info_Mark_fuel(
+info_Mark_fuel_ID int NOT NULL identity(1,1) PRIMARY KEY,
+Name_Mark_Fuel varchar (100)
+)
+
+create table Worker_Dolzhnosts(
+Worker_Dolzhnosts_ID int NOT NULL identity(1,1) PRIMARY KEY,
+Worker_Dolzhnost_Name varchar(200)
+)
+
+create table Workers(
+Worker_ID int NOT NULL identity(1,1) PRIMARY KEY,
+Worker_Name varchar (200),
+Worker_Dolzhnost int REFERENCES Worker_Dolzhnosts(Worker_Dolzhnosts_ID),
+Worker_BirthDay date,
+Worker_Telephone char(11),
+Worker_Dop_INFO varchar(300)
+)
+ALTER TABLE Workers ADD AZS_ID int REFERENCES AZS(AZS_ID)
+
+create table AZS(
+AZS_ID int NOT NULL identity(1,1) PRIMARY KEY,
+AZS_Name varchar (250),
+AZS_Address varchar (250)
+)
+
+create table Order_fuels(
+Order_fuel_ID int NOT NULL identity(1,1) PRIMARY KEY,
+Mark_fuel int REFERENCES info_Mark_fuel(info_Mark_fuel_ID),
+AZS_ID int REFERENCES AZS(AZS_ID),
+Workers_info int REFERENCES Workers(Worker_ID),
+QuantitySale_Fuel float,
+DateSale_Fuel datetime,
+Price_Fuel float
+)
+
+create table CurrentsFUEL_AZS(
+CurrentsFUEL_AZS_ID int NOT NULL identity(1,1) PRIMARY KEY,
+AZS_ID int REFERENCES AZS(AZS_ID),
+info_Mark_fuel_ID int REFERENCES info_Mark_fuel(info_Mark_fuel_ID),
+amountfuel float
+)
+
+create table TotalFUELs_AZS(
+TotalFUELs_AZS_ID int NOT NULL identity(1,1) PRIMARY KEY,
+AZS_ID int REFERENCES AZS(AZS_ID),
+info_Mark_fuel_ID int REFERENCES info_Mark_fuel(info_Mark_fuel_ID),
+amountfuel float
+)
+
+
+
+insert into info_Mark_fuel (Name_Mark_Fuel) VALUES ('АИ-80')
+insert into info_Mark_fuel (Name_Mark_Fuel) VALUES ('АИ-92')
+insert into info_Mark_fuel (Name_Mark_Fuel) VALUES ('АИ-95')
+insert into info_Mark_fuel (Name_Mark_Fuel) VALUES ('АИ-98')
+Select * from info_Mark_fuel
+
+insert into Worker_Dolzhnosts (Worker_Dolzhnost_Name) VALUES ('Директор')
+insert into Worker_Dolzhnosts (Worker_Dolzhnost_Name) VALUES ('Секретарь')
+insert into Worker_Dolzhnosts (Worker_Dolzhnost_Name) VALUES ('Офис-мэнэджер')
+insert into Worker_Dolzhnosts (Worker_Dolzhnost_Name) VALUES ('Продажник')
+insert into Worker_Dolzhnosts (Worker_Dolzhnost_Name) VALUES ('Бухгалтер')
+Select * from Worker_Dolzhnosts
+
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Константин Клюкин',1,'1996.01.20',87479191579,NULL)
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Галина Иванова',2,'1998.11.15',87021569482,'Работник месяца')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Сергей Бородин',4,'1990.02.01', 87715694518,'Стажер')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Татьяна Свирепина',4,'1997.03.10',87026511234,'Лучший продажник')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Иван Снегин',5,'2000.01.20',87476491678,'Душа компании')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Владимир Бобров',3,'1989.08.16',87476491678,'Зануда')
+
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Константин Клюкин',1,'1996.01.20',87479191579,NULL)
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Галина Иванова',2,'1998.11.15',87021569482,'Работник месяца')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Сергей Бородин',4,'1990.02.01', 87715694518,'Стажер')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Татьяна Свирепина',4,'1997.03.10',87026511234,'Лучший продажник')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Иван Снегин',5,'2000.01.20',87476491678,'Душа компании')
+insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Владимир Бобров',3,'1989.08.16',87476491678,'Зануда')
+Select * from Workers
+
+insert into AZS (AZS_Name,AZS_Address) VALUES ('Helios','Фурманова 215')
+insert into AZS (AZS_Name,AZS_Address) VALUES ('KazMunai','Сейфулина 163')
+Select * from AZS
+
+insert into Order_fuels(Mark_fuel,AZS_ID,Workers_info,QuantitySale_Fuel,DateSale_Fuel,Price_Fuel)VALUES (1,1,3,20,'2018.09.01 15:45',120)
+insert into Order_fuels(Mark_fuel,AZS_ID,Workers_info,QuantitySale_Fuel,DateSale_Fuel,Price_Fuel)VALUES (3,1,4,25,'2018.09.01 17:30',141)
+Select * from Order_fuels
+
 select * from AZS
 
 select * from Workers
@@ -15,6 +107,8 @@ select * from TotalFUELs_AZS/**/
 select * from Worker_Dolzhnosts
 
 INSERT INTO TotalFUELs_AZS(AZS_ID,info_Mark_fuel_ID,amountfuel) VALUES (1,2,1000)
+
+
 
 insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Шляпин Сергей',1,'1998.01.20',87479191579,NULL)
 insert into Workers (Worker_Name,Worker_Dolzhnost,Worker_BirthDay,Worker_Telephone,Worker_Dop_INFO) VALUES ('Василий Иванов',2,'1998.11.15',87021569482,'Работник месяца')
